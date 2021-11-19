@@ -8,7 +8,7 @@ USER root
 
 WORKDIR /home/jovyan/work 
 
-COPY ${IPYNB_FILE} /home/jovyan/work 
+COPY *.ipynb /home/jovyan/work 
 
 RUN chown -R ${NB_USER} /home/jovyan/work
 
