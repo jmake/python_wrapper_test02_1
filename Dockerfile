@@ -18,4 +18,4 @@ RUN jupyter nbconvert --execute --clear-output ${IPYNB_FILE}
 
 RUN tar -cvzf results.tar.gz /home/jovyan/work/*.*  
 
-COPY ${IPYNB_FILE}.ipynb from_docker.ipynb
+COPY ${IPYNB_FILE} from_docker.ipynb
