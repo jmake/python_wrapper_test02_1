@@ -1,0 +1,49 @@
+name: Python Package using Conda
+
+on: [push, workflow_dispatch]
+
+jobs:
+  conda_test02_1:
+  
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: OS 
+      run: uname -a   
+
+    - name: Dowloading repository ... 
+      uses: actions/checkout@v2
+
+    - name: Login to docker hub
+      uses: actions-hub/docker/login@master
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+    - name: Build 
+      if: success()
+      run: |
+        pwd
+        ls 
+        
+        IMAGE_NAME=gh01
+
+        docker build -f Dockerfile -t $IMAGE_NAME:1.0 .
+        docker images
+        
+        CONTAINER_ID=$(docker create ${IMAGE_NAME}:1.0)
+        
+        docker cp ${CONTAINER_ID}:/home/jovyan/work/results.tar.gz ./ 
+        docker rm -v $CONTAINER_ID
+
+        pwd 
+        ls 
+
+    - name: Saving artifacts ...
+      uses: actions/upload-artifact@v2
+      with:
+        name: FromContainer
+        if-no-files-found: error
+        path: ./results.tar.gz
+        retention-days: 1 
+
