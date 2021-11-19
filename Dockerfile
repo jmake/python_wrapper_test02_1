@@ -8,5 +8,5 @@ WORKDIR /home/jovyan/work
 
 COPY ${IPYNB_FILE} /home/jovyan/work 
 
-RUN jupyter nbconvert --execute --clear-output ${IPYNB_FILE} 
+#RUN jupyter nbconvert --execute --clear-output ${IPYNB_FILE} 
 
