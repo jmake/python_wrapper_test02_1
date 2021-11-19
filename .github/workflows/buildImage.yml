@@ -1,4 +1,3 @@
-%%writefile buildImage.yml  
 name: Building Docker Image
 
 on:
