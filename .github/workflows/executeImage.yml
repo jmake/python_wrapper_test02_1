@@ -1,0 +1,46 @@
+name: Executing Docker Image
+
+on: [push, workflow_dispatch]
+
+jobs:
+  executeimage:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: OS
+      run: uname -a
+
+    - name: Downloading repository ...
+      uses: actions/checkout@v2
+
+    - name: Login to Docker hub ... 
+      uses: actions-hub/docker/login@master
+      env:
+        DOCKER_USERNAME: ${{secrets.DOCKER_HUB_USERNAME}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_HUB_TOKEN}}
+            
+    - name: Build
+      if: success()
+      run: |
+        echo "[DOCKER] BUILDING ..."
+        IMAGE_NAME=gh01
+        docker build -f Dockerfile -t $IMAGE_NAME:1.0 .
+        docker images
+
+        echo "[DOCKER] CREATING ..." 
+        CONTAINER_ID=$(docker create ${IMAGE_NAME}:1.0)
+
+        echo "[DOCKER] EXECUTING ..."  
+        docker cp ${CONTAINER_ID}:/home/jovyan/work/from_docker.ipynb ./
+        docker rm -v $CONTAINER_ID
+        
+        echo "[DOCKER] DONE!" 
+
+    - name: Saving artifacts ...
+      uses: actions/upload-artifact@v2
+      with:
+        name: FromContainer
+        if-no-files-found: error
+        path: ./from_docker.ipynb
+        retention-days: 1
+        
