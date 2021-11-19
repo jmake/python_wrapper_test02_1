@@ -2,7 +2,7 @@ FROM jmake/repository:bccc06d9833b59f03b99d8dde4e46ca473a4fbc7
 
 USER root 
 
-IPYNB_FILE=Untitled2.ipynb
+ENV IPYNB_FILE="Untitled2.ipynb"
 
 WORKDIR /home/jovyan/work 
 
