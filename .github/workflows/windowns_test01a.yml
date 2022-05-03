@@ -42,9 +42,20 @@ jobs:
         
         #cl.exe
         
-        dir "\VsDevCmd*" /s 
+        #dir "\VsDevCmd*" /s 
         
         
+        C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Microsoft.VisualStudio.Component.VC.v141.x86.x64 -property installationPath -latest
+
+        C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires  Microsoft.VisualStudio.Component.Windows10SDK.19041  -property installationPath -latest
+        C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires  Microsoft.VisualStudio.Component.VC.CMake.Project  -property installationPath -latest
+        C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires  Microsoft.VisualStudio.Component.VC.ASAN  -property installationPath -latest
+        #C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Microsoft.VisualStudio.ComponentGroup.NativeDesktop.Core   -property installationPath -latest
+        #C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires    -property installationPath -latest
+
+        cl.exe 
+
+
     - name: cmake ??
       run: |
         C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Microsoft.VisualStudio.Component.VC.Llvm.Clang -property installationPath -latest
