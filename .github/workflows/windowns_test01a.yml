@@ -38,7 +38,13 @@ jobs:
         ## https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=msvc-170
         ## 
         msbuild.exe 
-        cl.exe
+        
+        ## https://code.visualstudio.com/docs/cpp/config-msvc#_run-vs-code-outside-the-developer-command-prompt
+        ls C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/Tools/
+        
+        ls %programfiles(x86)%\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\ 
+        
+        #cl.exe
         
       
     - uses: actions/checkout@v3
