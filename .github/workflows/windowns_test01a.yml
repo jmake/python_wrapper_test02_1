@@ -27,9 +27,15 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
       
-    - name: clexe
+    - name: cmake ?
       run: |
         C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Component.Linux.CMake -property installationPath -latest
+        cmake --version 
+        
+    - name: clexe 
+      run: |
+        C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Microsoft.VisualStudio.Component.VC.14.25.x86.x64 -property installationPath -latest
+        cl.exe 
 
     - name: Enviromental 
       shell: powershell 
@@ -44,7 +50,7 @@ jobs:
         msbuild.exe 
         
         ## https://code.visualstudio.com/docs/cpp/config-msvc#_run-vs-code-outside-the-developer-command-prompt
-        ls C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/Tools/
+        #ls C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/Tools/
         
         ls %programfiles(x86)%\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\ 
         
