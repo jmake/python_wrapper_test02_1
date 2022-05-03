@@ -26,23 +26,26 @@ jobs:
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
-      
-    - name: cmake ?
-      run: |
-        C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Component.Linux.CMake -property installationPath -latest
-        cmake --version 
+       
         
     - name: clexe 
       run: |
         C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Microsoft.VisualStudio.Component.VC.14.25.x86.x64 -property installationPath -latest
         
-        ls "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC"
+        ls "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.29.30133"
+        
+        ls "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliar"
         
         #cl.exe 
         
-    - name: gcc 
+    - name: cmake ??
       run: |
-        C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Component.MDD.Linux.GCC.arm -property installationPath -latest
+        C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Microsoft.VisualStudio.Component.VC.Llvm.Clang -property installationPath -latest
+        clang --help  
+        
+    - name: gccexe 
+      run: |
+        #C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Component.MDD.Linux.GCC.arm -property installationPath -latest
         gcc.exe --version 
 
 
