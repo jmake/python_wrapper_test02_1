@@ -20,7 +20,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2019
 
     steps:
 
@@ -28,8 +28,11 @@ jobs:
       shell: powershell 
       run: | 
         cmake --version 
-        ls 
-        ls C:\Miniconda 
+        ls -la 
+        ls -la C:\Miniconda 
+        
+        cl.exe
+        
       
     - uses: actions/checkout@v3
 
