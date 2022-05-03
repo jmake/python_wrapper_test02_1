@@ -24,6 +24,9 @@ jobs:
 
     steps:
 
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
     - name: Enviromental 
       shell: powershell 
       run: | 
@@ -31,6 +34,10 @@ jobs:
         ls 
         ls C:\Miniconda 
         
+        ##
+        ## https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=msvc-170
+        ## 
+        msbuild.exe 
         cl.exe
         
       
