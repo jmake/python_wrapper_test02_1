@@ -32,9 +32,9 @@ jobs:
       run: |
         C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Microsoft.VisualStudio.Component.VC.14.25.x86.x64 -property installationPath -latest
         
-        ls "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.29.30133"
+        ls "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.29.30133\Auxiliary"
         
-        ls "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliar"
+        ls "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\"
         
         #cl.exe 
         
