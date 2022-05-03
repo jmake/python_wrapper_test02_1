@@ -40,10 +40,11 @@ jobs:
         
         #cl.exe 
         
-    -name: gcc 
+    - name: gcc 
+      run: |
         C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Component.MDD.Linux.GCC.arm -property installationPath -latest
-     
         gcc.exe --version 
+
 
     - name: Enviromental 
       shell: powershell 
