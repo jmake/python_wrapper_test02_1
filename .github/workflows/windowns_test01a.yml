@@ -26,6 +26,10 @@ jobs:
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
+      
+    - name: clexe
+      run: |
+        C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Component.Linux.CMake -property installationPath -latest
 
     - name: Enviromental 
       shell: powershell 
