@@ -36,9 +36,14 @@ jobs:
       run: |
         C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Microsoft.VisualStudio.Component.VC.14.25.x86.x64 -property installationPath -latest
         
-        ls "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools"
+        ls "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC"
         
         #cl.exe 
+        
+    -name: gcc 
+        C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Component.MDD.Linux.GCC.arm -property installationPath -latest
+     
+        gcc.exe --version 
 
     - name: Enviromental 
       shell: powershell 
@@ -50,12 +55,12 @@ jobs:
         ##
         ## https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=msvc-170
         ## 
-        msbuild.exe 
+        #msbuild.exe 
         
         ## https://code.visualstudio.com/docs/cpp/config-msvc#_run-vs-code-outside-the-developer-command-prompt
         #ls C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/Tools/
         
-        ls "%programfiles(x86)%\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin" 
+        #ls "%programfiles(x86)%\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin" 
         
         #cl.exe
         
