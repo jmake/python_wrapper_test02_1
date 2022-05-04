@@ -29,6 +29,7 @@ jobs:
        
         
     - name: clexe 
+      shell: powershell 
       run: |
         #C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Microsoft.VisualStudio.Component.VC.14.25.x86.x64 -property installationPath -latest
         
@@ -43,21 +44,34 @@ jobs:
         #cl.exe
         
         #dir "\VsDevCmd*" /s 
-        
-        
-        echo "VC.v141.x86.x64"
-        C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Microsoft.VisualStudio.Component.VC.v141.x86.x64 -property installationPath -latest
 
-        echo "Windows10SDK " 
-        C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires  Microsoft.VisualStudio.Component.Windows10SDK.19041  -property installationPath -latest
-        
-        echo "CMake" 
-        C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires  Microsoft.VisualStudio.Component.VC.CMake.Project  -property installationPath -latest
-        
-        echo "ASAN " 
-        C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires  Microsoft.VisualStudio.Component.VC.ASAN  -property installationPath -latest
+        #echo "VC.v141.x86.x64"
+        #C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Microsoft.VisualStudio.Component.VC.v141.x86.x64 -property installationPath -latest
+        #
+        #echo "Windows10SDK " 
+        #C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires  Microsoft.VisualStudio.Component.Windows10SDK.19041  -property installationPath -latest
+        #
+        #echo "CMake" 
+        #C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires  Microsoft.VisualStudio.Component.VC.CMake.Project  -property installationPath -latest
+        #
+        #echo "ASAN " 
+        #C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires  Microsoft.VisualStudio.Component.VC.ASAN  -property installationPath -latest
         #C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Microsoft.VisualStudio.ComponentGroup.NativeDesktop.Core   -property installationPath -latest
         #C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires    -property installationPath -latest
+
+        $VSWHERE="C:\ProgramData\Chocolatey\bin\vswhere.exe"
+        $VSInstanceDir = &($VSWHERE) -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath -latest
+        Write-Output "[VSInstanceDir]:'$VSInstanceDir' "
+
+        $path = &($VSWHERE) -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+        if ($path) {
+            $path = join-path $path 'Common7\Tools\vsdevcmd.bat'
+            if (test-path $path) {
+                cmd /s /c """$path"" $args && set" | where { $_ -match '(\w+)=(.*)' } | foreach {
+                    $null = new-item -force -path "Env:\$($Matches[1])" -value $Matches[2]
+                }
+            }
+        }
 
         echo "clexe"  
         cl.exe 
