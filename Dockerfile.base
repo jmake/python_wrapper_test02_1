@@ -1,3 +1,7 @@
+## 
+## SEE : 
+##   jupyter/base-notebook @ https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html
+##
 FROM jupyter/base-notebook:latest
 
 RUN conda install -c conda-forge cxx-compiler vim 
