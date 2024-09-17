@@ -1,0 +1,113 @@
+name: MSBuild
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  # Path to the solution file relative to the root of the project.
+  SOLUTION_FILE_PATH: .
+
+  # Configuration type to build.
+  # You can convert this to a build matrix if you need coverage of multiple configuration types.
+  # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+  BUILD_CONFIGURATION: Release
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2019
+
+    steps:
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+       
+        
+    - name: clexe 
+      shell: powershell 
+      run: |
+        #C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Microsoft.VisualStudio.Component.VC.14.25.x86.x64 -property installationPath -latest
+        
+        #ls "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.29.30133\Auxiliary"
+        
+        #ls "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary"
+        
+        #ls "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build"
+        
+        #"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsamd64_x86.bat"
+        
+        #cl.exe
+        
+        #dir "\VsDevCmd*" /s 
+
+        #echo "VC.v141.x86.x64"
+        #C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Microsoft.VisualStudio.Component.VC.v141.x86.x64 -property installationPath -latest
+        #
+        #echo "Windows10SDK " 
+        #C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires  Microsoft.VisualStudio.Component.Windows10SDK.19041  -property installationPath -latest
+        #
+        #echo "CMake" 
+        #C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires  Microsoft.VisualStudio.Component.VC.CMake.Project  -property installationPath -latest
+        #
+        #echo "ASAN " 
+        #C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires  Microsoft.VisualStudio.Component.VC.ASAN  -property installationPath -latest
+        #C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Microsoft.VisualStudio.ComponentGroup.NativeDesktop.Core   -property installationPath -latest
+        #C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires    -property installationPath -latest
+
+        $VSWHERE="C:\ProgramData\Chocolatey\bin\vswhere.exe"
+        $VSInstanceDir = &($VSWHERE) -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath -latest
+        Write-Output "[VSInstanceDir]:'$VSInstanceDir' "
+
+        $path = &($VSWHERE) -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+        if ($path) {
+            $path = join-path $path 'Common7\Tools\vsdevcmd.bat'
+            if (test-path $path) {
+                cmd /s /c """$path"" $args && set" | where { $_ -match '(\w+)=(.*)' } | foreach {
+                    $null = new-item -force -path "Env:\$($Matches[1])" -value $Matches[2]
+                }
+            }
+        }
+
+        echo "clexe"  
+        cl.exe 
+
+
+    - name: cmake ??
+      run: |
+        C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Microsoft.VisualStudio.Component.VC.Llvm.Clang -property installationPath -latest
+        clang --help  
+        
+    - name: gccexe 
+      run: |
+        #C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Component.MDD.Linux.GCC.arm -property installationPath -latest
+        gcc.exe --version 
+
+
+    - name: Enviromental 
+      shell: powershell 
+      run: | 
+        cmake --version 
+        ls 
+        ls C:\Miniconda 
+        
+        ##
+        ## https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=msvc-170
+        ## 
+        #msbuild.exe 
+        
+        ## https://code.visualstudio.com/docs/cpp/config-msvc#_run-vs-code-outside-the-developer-command-prompt
+        #ls C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/Tools/
+        
+        #ls "%programfiles(x86)%\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin" 
+        
+        #cl.exe
+        
+      
+    - uses: actions/checkout@v3
+
+
